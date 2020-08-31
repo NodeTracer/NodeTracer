@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+      - redis
+    ports:
+      - "5000:5000"
+    env_file: .env.docker
+    entrypoint: ["/app/entrypoints/docker-entrypoint.sh"]
+    command: ["rails","server","-b","0.0.0.0","-p","5000"]
+
+  database:
+    image: timescale/timescaledb:latest-pg12
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  redis:
+    image: redis:5.0.7
+
+volumes:
+  postgres:
