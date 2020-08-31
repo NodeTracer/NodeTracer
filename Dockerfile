@@ -29,4 +29,6 @@ ADD . $APP_HOME
 ENV PORT 5000
 EXPOSE 5000
 
+RUN mv config/database.yml.docker config/database.yml
+
 ENTRYPOINT ["./entrypoints/docker-entrypoint.sh"]

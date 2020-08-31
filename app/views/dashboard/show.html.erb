@@ -1,1 +1,7 @@
 Welcome to NodeTracer dashboard.
+
+<% Metric.all.each do |metric| %>
+<div>
+  <%= metric.inspect %>
+</div>
+<% end %>

@@ -10,15 +10,20 @@ services:
       - redis
     ports:
       - "5000:5000"
-    env_file: .env.docker
+    environment:
+      - DATABASE_URL=postgres://node_tracer:password@database/node_tracer
     entrypoint: ["/app/entrypoints/docker-entrypoint.sh"]
     command: ["rails","server","-b","0.0.0.0","-p","5000"]
 
   database:
     image: timescale/timescaledb:latest-pg12
+    environment:
+      - POSTGRES_USER=node_tracer
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=node_tracer
+      - TIMESCALEDB_TELEMETRY=off
     volumes:
       - postgres:/var/lib/postgresql/data
-      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   redis:
     image: redis:5.0.7
 
